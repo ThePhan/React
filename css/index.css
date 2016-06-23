@@ -1,0 +1,52 @@
+.container {
+    background: #999966;
+}
+#try {
+    background-color: #E0E0E0;
+    margin-top: 10px;
+}
+#formUser {
+    background-color: #BCAAA4;
+    padding: 20px 0px 20px 40px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    font-size: 20px;
+}
+input {
+    width: 300px;
+    height: 35px;
+}
+#subFormUser {
+    padding: 20px 0px 20px 40px;
+    border: 1px solid;
+    border-radius: 9px;
+    width: 500px;
+    background-color: #B0BEC5;
+}
+#photo {
+    padding-right: 37px;
+}
+#listUser {
+    padding: 20px;
+}
+#imageUser {
+    padding: 5px;
+}
+#infor {
+    font-size: 20px;
+    padding-left: 15px;
+    padding-top: 5px;
+    width: 300px;
+}
+#formListFrient {
+    padding: 10px;
+    background-color: #EEEEEE;
+}
+#listFriend {
+    margin-right: 10px;
+}
+#titleUser{
+  color: white;
+  font-weight: bold;
+  font-size: 30px;
+}

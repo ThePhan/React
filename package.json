@@ -1,0 +1,18 @@
+{
+  "name": "Try",
+  "version": "0.0.0",
+  "description": "serverTry",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --hot"
+  },
+  "author": "Thchris",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "webpack": "~1.13.1",
+    "webpack-dev-server": "~1.14.1",
+    "react": "~15.1.0",
+    "react-dom": "~15.1.0",
+    "react-router": "~2.4.1"
+  }
+}
