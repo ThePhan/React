@@ -37,9 +37,9 @@ constructor(props) {
                 </tbody>
 
               </table>
-              <button type="button" onClick={this.handleDeleteButton}> Delete</button>
-              <button type="button" onClick={this.handleEditButton}> Edit </button>
-              <button type="button" onClick={this.handleFriendButton}> Friend </button>
+              <button type="button" onClick={this.handleDeleteButton} className="button success"> Delete</button>
+              <button type="button" onClick={this.handleEditButton} className="button success"> Edit </button>
+              <button type="button" onClick={this.handleFriendButton} className="button success"> Friend </button>
            </ul>
       </div>
       );

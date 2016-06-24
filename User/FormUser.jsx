@@ -7,6 +7,7 @@ class FormUser extends React.Component {
 
         this.state = {
             user: this.props.user || {}
+            
         }
 
         this.handleOnchange = this.handleOnchange.bind(this);
@@ -49,7 +50,7 @@ class FormUser extends React.Component {
                 <p ><b>FirstName</b> <input type="text" placeholder="input first name..." value={this.state.user.firstName || ''} onChange={this.handleOnchange.bind(this, 'firstName')} /> <br /></p>
                 <p ><b>LastName </b> <input type="text" width="350px" placeholder="input last name...." value={this.state.user.lastName || ''} onChange={this.handleOnchange.bind(this, 'lastName')} /> <br /></p>
                 <p ><b><span id="photo" >Photo</span> </b> <input type="text" placeholder="input link photo...." value={this.state.user.photo || ''} onChange={this.handleOnchange.bind(this, 'photo')} /> <br /></p>
-                <button onClick={this.handleSubmit}>{this.state.user.id ? 'Update' : 'Add user'}</button> <br />
+                <button onClick={this.handleSubmit} className="button success">{this.state.user.id ? 'Update' : 'Add user'}</button> <br />
               </div>
             </div>
         )

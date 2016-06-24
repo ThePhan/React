@@ -73,7 +73,7 @@ class App extends React.Component {
 
     handleFriendButton(index){
       var userFriend = this.state.User[index].friend;
-      var arrayFriend = [];
+      var arrayFriend=[];
       for (var i = 0; i<userFriend.length; i++){
         for(var j = 0; j <this.state.User.length; j++){
           if(userFriend[i] == this.state.User[j].id){
@@ -96,18 +96,22 @@ class App extends React.Component {
       this.setState({friends:friendss});
     }
 
+    addFriendHandle(idFriend){
+        this.setState({arrayUser: this.state.User});
+    }
+
     render() {
         return (
             <div>
                 <FormUser addUser={this.addUser.bind(this)} updateUser={this.updateUser} user={this.state.editUser} indexUser={this.state.editUserIndex}></FormUser>
 
                 {this.state.friends.map(function(friend, i) {
-                    return (<ListFriend key={i} dataFriend={friend} deleteFriendHandle={this.deleteFriendHandle} />)
+                    return (<ListFriend key={i} dataFriend={friend} deleteFriendHandle={this.deleteFriendHandle} arrayUser={this.state.arrayUser} addFriendHandle={this.addFriendHandle.bind(this)}/>)
                 }, this)}
                 {this.state.User.map(function(person, i) {
                     return (<List handleEditButton={this.handleEditButton} handleFriendButton={this.handleFriendButton} deleteUser={this.deleteUser} key={i} data={person} indexUser={i}/>)
                 }, this)}
-                <button onClick={this.increaseQty} className="button success">ssssssssssss</button>
+
             </div>
         );
     }
