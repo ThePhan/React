@@ -31,7 +31,7 @@ class App extends React.Component {
             ],
             friends:[]
         }
-        this.addUser = this.addUser.bind(this);
+
         this.deleteUser = this.deleteUser.bind(this);
         this.handleEditButton = this.handleEditButton.bind(this);
         this.updateUser = this.updateUser.bind(this);
@@ -99,7 +99,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <FormUser addUser={this.addUser} updateUser={this.updateUser} user={this.state.editUser} indexUser={this.state.editUserIndex}></FormUser>
+                <FormUser addUser={this.addUser.bind(this)} updateUser={this.updateUser} user={this.state.editUser} indexUser={this.state.editUserIndex}></FormUser>
 
                 {this.state.friends.map(function(friend, i) {
                     return (<ListFriend key={i} dataFriend={friend} deleteFriendHandle={this.deleteFriendHandle} />)
@@ -107,7 +107,7 @@ class App extends React.Component {
                 {this.state.User.map(function(person, i) {
                     return (<List handleEditButton={this.handleEditButton} handleFriendButton={this.handleFriendButton} deleteUser={this.deleteUser} key={i} data={person} indexUser={i}/>)
                 }, this)}
-
+                <button onClick={this.increaseQty} className="button success">ssssssssssss</button>
             </div>
         );
     }
