@@ -33,10 +33,19 @@ class App extends React.Component {
     }
 
     addUser(user) {
-        user.id = this.state.User.length + 1;
+        // user.id = this.state.User.length + 1;
         var myArray = this.state.User;
-        myArray.push(user);
-        this.setState({User: myArray});
+        this.serverRequest = $.post("http://localhost:8181/user",
+        {"firstName": user.firstName,
+        "lastName": user.lastName,
+        "photo": user.photo},
+        function(result) {
+              console.log(result);
+              myArray.push(result);
+              console.log(result);
+        });
+        // myArray.push(user);
+        this.setState({User: result});
     }
 
     deleteUser(id) {
@@ -50,9 +59,9 @@ class App extends React.Component {
         this.serverRequest = $.ajax({
             url: "http://localhost:8181/user",
             type: "DELETE",
-            async: true,
+            dataType: "json",
             data: {
-                "_id": "id"
+                "_id": id
             },
             success: function(data) {
                 alert("success");
@@ -67,6 +76,17 @@ class App extends React.Component {
     updateUser(user, indexUser) {
         var users = this.state.User;
         users[indexUser] = user;
+          this.serverRequest = $.ajax({
+          url: "http://localhost:8181/user",
+          method: "PUT",
+          data: {
+                  "firstName": user.firstName,
+                  "lastName": user.lastName,
+                  "photo": user.photo,
+                  "_id": user._id
+                },
+          dataType: "json"
+        });
         this.setState({User: users, editUser: {}});
     }
 
