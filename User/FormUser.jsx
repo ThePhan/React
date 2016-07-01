@@ -7,7 +7,6 @@ class FormUser extends React.Component {
 
         this.state = {
             user: this.props.user || {}
-            
         }
 
         this.handleOnchange = this.handleOnchange.bind(this);

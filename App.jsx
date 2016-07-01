@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+import $ from 'jquery';
 import List from './User/ListUser.jsx';
 import ListFriend from './User/ListFriend.jsx';
 import FormUser from './User/FormUser.jsx';
@@ -8,28 +10,8 @@ class App extends React.Component {
         super();
 
         this.state = {
-            User: [
-                {
-                    "id": 1,
-                    "firstName": "Tom",
-                    "lastName": "Cruise",
-                    "photo": "http://cdn2.gossipcenter.com/sites/default/files/imagecache/story_header/photos/tom-cruise-020514sp.jpg",
-                    "friend": [2, 3]
-                }, {
-                    "id": 2,
-                    "firstName": "Maria",
-                    "lastName": "Sharapova",
-                    "photo": "http://thewallmachine.com/files/1363603040.jpg",
-                    "friend": [3]
-                }, {
-                    "id": 3,
-                    "firstName": "James",
-                    "lastName": "Bond",
-                    "photo": "http://georgesjournal.files.wordpress.com/2012/02/007_at_50_ge_pierece_brosnan.jpg",
-                    "friend": [1]
-                }
-            ],
-            friends:[]
+            User: [],
+            friends: []
         }
 
         this.deleteUser = this.deleteUser.bind(this);
@@ -37,66 +19,87 @@ class App extends React.Component {
         this.updateUser = this.updateUser.bind(this);
         this.handleFriendButton = this.handleFriendButton.bind(this);
         this.deleteFriendHandle = this.deleteFriendHandle.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
     };
 
-    addUser(user){
-      user.id = this.state.User.length + 1;
-      var myArray = this.state.User;
-      myArray.push(user);
-      this.setState({
-          User: myArray
-      });
+    componentDidMount() {
+        this.serverRequest = $.get("http://localhost:8181/user", function(result) {
+
+            this.setState({User: result});
+        }.bind(this));
+    }
+    componentWillUnmount() {
+        this.serverRequest.abort();
+    }
+
+    addUser(user) {
+        user.id = this.state.User.length + 1;
+        var myArray = this.state.User;
+        myArray.push(user);
+        this.setState({User: myArray});
     }
 
     deleteUser(id) {
-        var users = this.state.User.filter(function(user) {
-            return user.id !== id;
+        // var users = this.state.User.filter(function(user) {
+        //     return user.id !== id;
+        // });
+        //
+        // this.setState({User: users});
+
+        console.log(id + " dnsjdksjdksjkdj");
+        this.serverRequest = $.ajax({
+            url: "http://localhost:8181/user",
+            type: "DELETE",
+            async: true,
+            data: {
+                "_id": "id"
+            },
+            success: function(data) {
+                alert("success");
+            },
+            error: function(error) {
+                alert("error :" + error.status);
+            }
         });
-        this.setState({User: users});
+
     }
 
     updateUser(user, indexUser) {
-      var users = this.state.User;
-      users[indexUser] = user;
-      this.setState({
-        User: users,
-        editUser: {}
-      });
+        var users = this.state.User;
+        users[indexUser] = user;
+        this.setState({User: users, editUser: {}});
     }
 
-    handleEditButton(index){
-        this.setState({
-            editUser: this.state.User[index],
-            editUserIndex: index
-        });
+    handleEditButton(index) {
+        this.setState({editUser: this.state.User[index], editUserIndex: index});
     }
 
-    handleFriendButton(index){
-      var userFriend = this.state.User[index].friend;
-      var arrayFriend=[];
-      for (var i = 0; i<userFriend.length; i++){
-        for(var j = 0; j <this.state.User.length; j++){
-          if(userFriend[i] == this.state.User[j].id){
-            var nameFriend = {
-              "id": this.state.User[j].id,
-              "firstName": this.state.User[j].firstName
-            };
-          }
+    handleFriendButton(index) {
+        var userFriend = this.state.User[index].friend;
+        var arrayFriend = [];
+        for (var i = 0; i < userFriend.length; i++) {
+            for (var j = 0; j < this.state.User.length; j++) {
+                if (userFriend[i] == this.state.User[j].id) {
+                    var nameFriend = {
+                        "id": this.state.User[j].id,
+                        "firstName": this.state.User[j].firstName
+                    };
+                }
+            }
+            arrayFriend.push(nameFriend);
         }
-        arrayFriend.push(nameFriend);
-      }
 
-      this.setState({friends: arrayFriend})
+        this.setState({friends: arrayFriend})
     }
 
-    deleteFriendHandle(idFriend){
-      var friendss = this.state.friends.filter(function(friend){
-        return friend.id !== idFriend;
-      });
-      this.setState({friends:friendss});
+    deleteFriendHandle(idFriend) {
+        var friendss = this.state.friends.filter(function(friend) {
+            return friend.id !== idFriend;
+        });
+        this.setState({friends: friendss});
     }
 
-    addFriendHandle(idFriend){
+    addFriendHandle(idFriend) {
         this.setState({arrayUser: this.state.User});
     }
 
