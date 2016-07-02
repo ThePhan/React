@@ -11,7 +11,7 @@ constructor(props) {
  };
 
   handleDeleteButton(){
-    console.log(this.props.data.id);
+    console.log(this.props.data._id);
     this.props.deleteUser(this.props.data._id);
   }
 

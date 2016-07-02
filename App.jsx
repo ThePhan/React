@@ -15,6 +15,7 @@ class App extends React.Component {
         }
 
         this.deleteUser = this.deleteUser.bind(this);
+        this.addUser = this.addUser.bind(this);
         this.handleEditButton = this.handleEditButton.bind(this);
         this.updateUser = this.updateUser.bind(this);
         this.handleFriendButton = this.handleFriendButton.bind(this);
@@ -45,47 +46,50 @@ class App extends React.Component {
               console.log(result);
         });
         // myArray.push(user);
-        this.setState({User: result});
+        this.setState({User: myArray});
     }
 
-    deleteUser(id) {
+    deleteUser(_id) {
         // var users = this.state.User.filter(function(user) {
         //     return user.id !== id;
         // });
         //
         // this.setState({User: users});
 
-        console.log(id + " dnsjdksjdksjkdj");
-        this.serverRequest = $.ajax({
+        console.log(_id + " dnsjdksjdksjkdj");
+        var newUser = this.serverRequest = $.ajax({
             url: "http://localhost:8181/user",
-            type: "DELETE",
-            dataType: "json",
+            type: 'DELETE',
+            dataType: 'json',
             data: {
-                "_id": id
+                "_id": _id,
             },
-            success: function(data) {
+            success: function(dataww) {
                 alert("success");
             },
             error: function(error) {
                 alert("error :" + error.status);
             }
         });
-
+        this.setState({User: newUser});
     }
-
+// update user coplete
     updateUser(user, indexUser) {
         var users = this.state.User;
         users[indexUser] = user;
           this.serverRequest = $.ajax({
-          url: "http://localhost:8181/user",
-          method: "PUT",
+          url: 'http://localhost:8181/user',
+          method: 'PUT',
+          dataType: 'json',
           data: {
                   "firstName": user.firstName,
                   "lastName": user.lastName,
                   "photo": user.photo,
                   "_id": user._id
                 },
-          dataType: "json"
+          success: function(err, result){
+            // alert(result.status);
+          }
         });
         this.setState({User: users, editUser: {}});
     }
@@ -126,7 +130,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <FormUser addUser={this.addUser.bind(this)} updateUser={this.updateUser} user={this.state.editUser} indexUser={this.state.editUserIndex}></FormUser>
+                <FormUser addUser={this.addUser} updateUser={this.updateUser} user={this.state.editUser} indexUser={this.state.editUserIndex}></FormUser>
 
                 {this.state.friends.map(function(friend, i) {
                     return (<ListFriend key={i} dataFriend={friend} deleteFriendHandle={this.deleteFriendHandle} arrayUser={this.state.arrayUser} addFriendHandle={this.addFriendHandle.bind(this)}/>)
