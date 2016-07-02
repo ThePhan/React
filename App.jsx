@@ -35,7 +35,7 @@ class App extends React.Component {
 
     addUser(user) {
         // user.id = this.state.User.length + 1;
-        var myArray = this.state.User;
+        var myArray = this.state.User; // React
         this.serverRequest = $.post("http://localhost:8181/user",
         {"firstName": user.firstName,
         "lastName": user.lastName,
@@ -45,33 +45,25 @@ class App extends React.Component {
               myArray.push(result);
               console.log(result);
         });
-        // myArray.push(user);
-        this.setState({User: myArray});
+        myArray.push(user);//React
+        this.setState({User: myArray});//React
     }
 
     deleteUser(_id) {
-        // var users = this.state.User.filter(function(user) {
-        //     return user.id !== id;
-        // });
-        //
-        // this.setState({User: users});
-
-        console.log(_id + " dnsjdksjdksjkdj");
-        var newUser = this.serverRequest = $.ajax({
+      //React
+        var users = this.state.User.filter(function(user) {
+            return user._id !== _id;
+        });
+        //data mongo
+        this.serverRequest = $.ajax({
             url: "http://localhost:8181/user",
             type: 'DELETE',
             dataType: 'json',
             data: {
                 "_id": _id,
-            },
-            success: function(dataww) {
-                alert("success");
-            },
-            error: function(error) {
-                alert("error :" + error.status);
             }
         });
-        this.setState({User: newUser});
+        this.setState({User: users});
     }
 // update user coplete
     updateUser(user, indexUser) {
@@ -99,13 +91,13 @@ class App extends React.Component {
     }
 
     handleFriendButton(index) {
-        var userFriend = this.state.User[index].friend;
+        var userFriend = this.state.User[index].friends;
         var arrayFriend = [];
         for (var i = 0; i < userFriend.length; i++) {
             for (var j = 0; j < this.state.User.length; j++) {
-                if (userFriend[i] == this.state.User[j].id) {
+                if (userFriend[i] === this.state.User[j]._id) {
                     var nameFriend = {
-                        "id": this.state.User[j].id,
+                        "_id": this.state.User[j]._id,
                         "firstName": this.state.User[j].firstName
                     };
                 }
@@ -118,7 +110,7 @@ class App extends React.Component {
 
     deleteFriendHandle(idFriend) {
         var friendss = this.state.friends.filter(function(friend) {
-            return friend.id !== idFriend;
+            return friend._id !== idFriend;
         });
         this.setState({friends: friendss});
     }

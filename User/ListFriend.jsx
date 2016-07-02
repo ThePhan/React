@@ -7,11 +7,11 @@ class ListFriend extends React.Component {
     }
 
     deleteFriendHandle(){
-      this.props.deleteFriendHandle(this.props.dataFriend.id);
+      this.props.deleteFriendHandle(this.props.dataFriend._id);
     }
 
     addFriendHandle(){
-      this.props.addFriendHandle(this.props.dataFriend.id);
+      this.props.addFriendHandle(this.props.dataFriend._id);
     }
 
     render(){
