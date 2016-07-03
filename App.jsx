@@ -114,9 +114,9 @@ class App extends React.Component {
         this.setState({friends: arrayFriend})
     }
 
-    deleteFriendHandle(idFriend, _id) {
+    deleteFriendHandle(_idFriend, _id) {
         var friendss = this.state.friends.filter(function(friend) {
-            return friend._idFriend !== idFriend;
+              return friend._idFriend !== _idFriend;
         });
           this.serverRequest = $.ajax({
             url: "http://localhost:8181/friend",
@@ -124,7 +124,7 @@ class App extends React.Component {
             dataType: 'json',
             data: {
                 "_id": _id,
-                "idFriend": idFriend
+                "idFriend": _idFriend
             }
         });
         this.setState({friends: friendss});
@@ -132,23 +132,11 @@ class App extends React.Component {
 
 //show list user o add friend
     addFriendHandle(idUser) {// ID
-        this.setState({friends: this.state.User});
+        this.setState({friends: this.state.User, idUser: idUser});
     }
 //add friend from list user was show by addFriendHandle
-    addFriend(idFriend, idUsers){
-      var friendss = this.state.friends.filter(function(friend) {
-          return friend._idFriend !== idFriend;
-      });
-        this.serverRequest = $.ajax({
-          url: "http://localhost:8181/friend",
-          type: 'POST',
-          dataType: 'json',
-          data: {
-              "_id": idUsers,
-              "idFriend": idFriend
-          }
-      });
-      this.setState({friends: friendss});
+    addFriend(idUsers){
+
     }
 
     render() {
@@ -157,7 +145,7 @@ class App extends React.Component {
                 <FormUser addUser={this.addUser} updateUser={this.updateUser} user={this.state.editUser} indexUser={this.state.editUserIndex}></FormUser>
 
                 {this.state.friends.map(function(friend, i) {
-                    return (<ListFriend key={i} dataFriend={friend} addFriend={this.addFriend} deleteFriendHandle={this.deleteFriendHandle} />)
+                    return (<ListFriend key={i} dataFriend={friend} idUsers={this.state.idUser} addFriend={this.addFriend} deleteFriendHandle={this.deleteFriendHandle} />)
                 }, this)}
                 {this.state.User.map(function(person, i) {
                     return (<List addFriendHandle={this.addFriendHandle.bind(this)} handleEditButton={this.handleEditButton} handleFriendButton={this.handleFriendButton} deleteUser={this.deleteUser} key={i} data={person} indexUser={i}/>)

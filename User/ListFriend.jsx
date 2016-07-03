@@ -26,10 +26,6 @@ class ListFriend extends React.Component {
         // }
     }
 
-    addFriend(){
-      this.props.addFriend(this.props.dataFriend._idFriend, this.props.dataFriend.idUser);
-    }
-
     render(){
       return(
           <div id="formListFrient">
@@ -37,7 +33,7 @@ class ListFriend extends React.Component {
               <span id="listFriend">{this.props.dataFriend.firstName} {this.props.dataFriend.lastName}</span>
 
             <button type="button" onClick={this.deleteFriendHandle} className="button success">Delete friend</button>
-            <button type="button" onClick={this.addFriend.bind(this)} className="button success">ADD</button>
+
             </ul>
           </div>
       );
