@@ -7,7 +7,7 @@ class ListFriend extends React.Component {
     }
 
     deleteFriendHandle(){
-      this.props.deleteFriendHandle(this.props.dataFriend._id);
+      this.props.deleteFriendHandle(this.props.dataFriend._id, this.props.dataFriend.idUser);
     }
 
     addFriendHandle(){
@@ -18,11 +18,10 @@ class ListFriend extends React.Component {
       return(
           <div id="formListFrient">
             <ul>
-              <span id="listFriend">{this.props.dataFriend.firstName}</span>
+              <span id="listFriend">{this.props.dataFriend.firstName} {this.props.dataFriend.lastName}</span>
             <button type="button" onClick={this.addFriendHandle.bind(this)}> Add friend </button>
             <button type="button" onClick={this.deleteFriendHandle}> Delete </button>
             </ul>
-
           </div>
       );
     }

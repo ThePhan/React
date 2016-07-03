@@ -30,7 +30,7 @@ constructor(props) {
                 <tbody>
                   <tr >
                      <td id="imageUser"><img src={this.props.data.photo} width="150" height="160" alt="No image" /></td>
-                     <td id="infor"><b> Id User: </b>{this.props.data._id}  <br />
+                     <td id="infor">
                      <b> First name: </b>{this.props.data.firstName} <br />
                      <b> Last Name: </b>{this.props.data.lastName} <br />
                   </td>

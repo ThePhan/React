@@ -34,7 +34,7 @@ class App extends React.Component {
     }
 
     addUser(user) {
-        // user.id = this.state.User.length + 1;
+        // user._id = new Date().getTime();
         var myArray = this.state.User; // React
         this.serverRequest = $.post("http://localhost:8181/user",
         {"firstName": user.firstName,
@@ -87,18 +87,23 @@ class App extends React.Component {
     }
 
     handleEditButton(index) {
+      //get editUser to set value for "user":use for update, delete, addfriend, delete friend
         this.setState({editUser: this.state.User[index], editUserIndex: index});
     }
 
     handleFriendButton(index) {
         var userFriend = this.state.User[index].friends;
+        var idUser = this.state.User[index]._id;
         var arrayFriend = [];
         for (var i = 0; i < userFriend.length; i++) {
             for (var j = 0; j < this.state.User.length; j++) {
                 if (userFriend[i] === this.state.User[j]._id) {
                     var nameFriend = {
+                      // use idUser to delete friend from list friend by id user
+                        "idUser": idUser,
                         "_id": this.state.User[j]._id,
-                        "firstName": this.state.User[j].firstName
+                        "firstName": this.state.User[j].firstName,
+                        "lastName": this.state.User[j].lastName,
                     };
                 }
             }
@@ -108,9 +113,18 @@ class App extends React.Component {
         this.setState({friends: arrayFriend})
     }
 
-    deleteFriendHandle(idFriend) {
+    deleteFriendHandle(idFriend, _id) {
         var friendss = this.state.friends.filter(function(friend) {
             return friend._id !== idFriend;
+        });
+          this.serverRequest = $.ajax({
+            url: "http://localhost:8181/friend",
+            type: 'DELETE',
+            dataType: 'json',
+            data: {
+                "_id": _id,
+                "idFriend": idFriend
+            }
         });
         this.setState({friends: friendss});
     }
