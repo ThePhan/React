@@ -16,6 +16,7 @@ class App extends React.Component {
 
         this.deleteUser = this.deleteUser.bind(this);
         this.addUser = this.addUser.bind(this);
+        this.addFriend = this.addFriend.bind(this);
         this.handleEditButton = this.handleEditButton.bind(this);
         this.updateUser = this.updateUser.bind(this);
         this.handleFriendButton = this.handleFriendButton.bind(this);
@@ -67,8 +68,8 @@ class App extends React.Component {
     }
 // update user coplete
     updateUser(user, indexUser) {
-        var users = this.state.User;
-        users[indexUser] = user;
+        var users = this.state.User;// get list user
+        users[indexUser] = user;// get infor user from index user
           this.serverRequest = $.ajax({
           url: 'http://localhost:8181/user',
           method: 'PUT',
@@ -90,10 +91,10 @@ class App extends React.Component {
       //get editUser to set value for "user":use for update, delete, addfriend, delete friend
         this.setState({editUser: this.state.User[index], editUserIndex: index});
     }
-
+//Show list friend of user
     handleFriendButton(index) {
-        var userFriend = this.state.User[index].friends;
-        var idUser = this.state.User[index]._id;
+        var userFriend = this.state.User[index].friends;//index of user
+        var idUser = this.state.User[index]._id;// id user
         var arrayFriend = [];
         for (var i = 0; i < userFriend.length; i++) {
             for (var j = 0; j < this.state.User.length; j++) {
@@ -101,7 +102,7 @@ class App extends React.Component {
                     var nameFriend = {
                       // use idUser to delete friend from list friend by id user
                         "idUser": idUser,
-                        "_id": this.state.User[j]._id,
+                        "_idFriend": this.state.User[j]._id,
                         "firstName": this.state.User[j].firstName,
                         "lastName": this.state.User[j].lastName,
                     };
@@ -115,7 +116,7 @@ class App extends React.Component {
 
     deleteFriendHandle(idFriend, _id) {
         var friendss = this.state.friends.filter(function(friend) {
-            return friend._id !== idFriend;
+            return friend._idFriend !== idFriend;
         });
           this.serverRequest = $.ajax({
             url: "http://localhost:8181/friend",
@@ -129,8 +130,25 @@ class App extends React.Component {
         this.setState({friends: friendss});
     }
 
-    addFriendHandle(idFriend) {
-        this.setState({arrayUser: this.state.User});
+//show list user o add friend
+    addFriendHandle(idUser) {// ID
+        this.setState({friends: this.state.User});
+    }
+//add friend from list user was show by addFriendHandle
+    addFriend(idFriend, idUsers){
+      var friendss = this.state.friends.filter(function(friend) {
+          return friend._idFriend !== idFriend;
+      });
+        this.serverRequest = $.ajax({
+          url: "http://localhost:8181/friend",
+          type: 'POST',
+          dataType: 'json',
+          data: {
+              "_id": idUsers,
+              "idFriend": idFriend
+          }
+      });
+      this.setState({friends: friendss});
     }
 
     render() {
@@ -139,10 +157,10 @@ class App extends React.Component {
                 <FormUser addUser={this.addUser} updateUser={this.updateUser} user={this.state.editUser} indexUser={this.state.editUserIndex}></FormUser>
 
                 {this.state.friends.map(function(friend, i) {
-                    return (<ListFriend key={i} dataFriend={friend} deleteFriendHandle={this.deleteFriendHandle} arrayUser={this.state.arrayUser} addFriendHandle={this.addFriendHandle.bind(this)}/>)
+                    return (<ListFriend key={i} dataFriend={friend} addFriend={this.addFriend} deleteFriendHandle={this.deleteFriendHandle} />)
                 }, this)}
                 {this.state.User.map(function(person, i) {
-                    return (<List handleEditButton={this.handleEditButton} handleFriendButton={this.handleFriendButton} deleteUser={this.deleteUser} key={i} data={person} indexUser={i}/>)
+                    return (<List addFriendHandle={this.addFriendHandle.bind(this)} handleEditButton={this.handleEditButton} handleFriendButton={this.handleFriendButton} deleteUser={this.deleteUser} key={i} data={person} indexUser={i}/>)
                 }, this)}
 
             </div>
