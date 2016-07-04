@@ -16,7 +16,6 @@ class App extends React.Component {
 
         this.deleteUser = this.deleteUser.bind(this);
         this.addUser = this.addUser.bind(this);
-        this.addFriend = this.addFriend.bind(this);
         this.handleEditButton = this.handleEditButton.bind(this);
         this.updateUser = this.updateUser.bind(this);
         this.handleFriendButton = this.handleFriendButton.bind(this);
@@ -36,25 +35,27 @@ class App extends React.Component {
 
     addUser(user) {
         // user._id = new Date().getTime();
-        var myArray = this.state.User; // React
+        // var myArray = this.state.User; // React
         this.serverRequest = $.post("http://localhost:8181/user",
         {"firstName": user.firstName,
         "lastName": user.lastName,
         "photo": user.photo},
         function(result) {
-              console.log(result);
-              myArray.push(result);
-              console.log(result);
+              // myArray.push(result);
+              if (result.message == "Sucess") {
+                window.location.reload();
+              }
         });
-        myArray.push(user);//React
-        this.setState({User: myArray});//React
+        // myArray.push(user);//React
+        // this.setState({User: myArray});//React
+        //  window.location.reload();
     }
 
     deleteUser(_id) {
       //React
-        var users = this.state.User.filter(function(user) {
-            return user._id !== _id;
-        });
+        // var users = this.state.User.filter(function(user) {
+        //     return user._id !== _id;
+        // });
         //data mongo
         this.serverRequest = $.ajax({
             url: "http://localhost:8181/user",
@@ -62,14 +63,24 @@ class App extends React.Component {
             dataType: 'json',
             data: {
                 "_id": _id,
+            },
+            success:function(result){
+              console.log(result.message);
+              if (result.message == "Sucess") {
+                window.location.reload();
+              }
+            },
+            error:function(err){
+              alert(err.status);
             }
         });
-        this.setState({User: users});
+        // this.setState({User: users});
+        //  window.location.reload();
     }
 // update user coplete
     updateUser(user, indexUser) {
-        var users = this.state.User;// get list user
-        users[indexUser] = user;// get infor user from index user
+        // var users = this.state.User;// get list user
+        // users[indexUser] = user;// get infor user from index user
           this.serverRequest = $.ajax({
           url: 'http://localhost:8181/user',
           method: 'PUT',
@@ -80,11 +91,19 @@ class App extends React.Component {
                   "photo": user.photo,
                   "_id": user._id
                 },
-          success: function(err, result){
-            // alert(result.status);
+          success: function(result){
+            if (result.message == "Update sucess") {
+              window.location.reload();
+            }
+          },
+          error: function(err){
+            if (err.message == "Update user faild") {
+              alert(err.status + "Not found");
+            }
           }
         });
-        this.setState({User: users, editUser: {}});
+        // window.location.reload();
+        // this.setState({User: users, editUser: {}});
     }
 
     handleEditButton(index) {
@@ -94,30 +113,40 @@ class App extends React.Component {
 //Show list friend of user
     handleFriendButton(index) {
         var userFriend = this.state.User[index].friends;//index of user
-        var idUser = this.state.User[index]._id;// id user
-        var arrayFriend = [];
-        for (var i = 0; i < userFriend.length; i++) {
-            for (var j = 0; j < this.state.User.length; j++) {
-                if (userFriend[i] === this.state.User[j]._id) {
-                    var nameFriend = {
-                      // use idUser to delete friend from list friend by id user
-                        "idUser": idUser,
-                        "_idFriend": this.state.User[j]._id,
-                        "firstName": this.state.User[j].firstName,
-                        "lastName": this.state.User[j].lastName,
-                    };
-                }
-            }
-            arrayFriend.push(nameFriend);
-        }
+        if(userFriend.length == 0){
+          alert("Noone in your list friend");
+        }else {
+          var idUser = this.state.User[index]._id;// id user
+          var arrayFriend = [];
+          for (var i = 0; i < userFriend.length; i++) {
+              for (var j = 0; j < this.state.User.length; j++) {
+                  if (userFriend[i] === this.state.User[j]._id) {
+                      var nameFriend = {
+                        // use idUser to delete friend from list friend by id user
+                          "idUser": idUser,
+                          "_idFriend": this.state.User[j]._id,
+                          "firstName": this.state.User[j].firstName,
+                          "lastName": this.state.User[j].lastName,
+                      };
+                  }
+              }
+              if (typeof(nameFriend) !== "undefined") {
+                arrayFriend.push(nameFriend);
+              }
+          }
+          if (arrayFriend.length <= 0) {
+            alert("your friend not exit");
+          }else {
+              this.setState({friends: arrayFriend});
+          }
 
-        this.setState({friends: arrayFriend})
+        }
     }
 
     deleteFriendHandle(_idFriend, _id) {
-        var friendss = this.state.friends.filter(function(friend) {
-              return friend._idFriend !== _idFriend;
-        });
+        // var friendss = this.state.friends.filter(function(friend) {
+        //       return friend._idFriend !== _idFriend;
+        // });
           this.serverRequest = $.ajax({
             url: "http://localhost:8181/friend",
             type: 'DELETE',
@@ -125,18 +154,21 @@ class App extends React.Component {
             data: {
                 "_id": _id,
                 "idFriend": _idFriend
+            },
+            success: function(result){
+              if (result.message == "Delete friend oke") {
+                window.location.reload();
+              }
+            },
+            error:function(err){
+              if (err.message == "Delete faild") {
+                alert(err.status + " " +err.message);
+              }
             }
+
         });
-        this.setState({friends: friendss});
-    }
-
-//show list user o add friend
-    addFriendHandle(idUser) {// ID
-        this.setState({friends: this.state.User, idUser: idUser});
-    }
-//add friend from list user was show by addFriendHandle
-    addFriend(idUsers){
-
+        // this.setState({friends: friendss});
+         window.location.reload();
     }
 
     render() {
@@ -145,10 +177,10 @@ class App extends React.Component {
                 <FormUser addUser={this.addUser} updateUser={this.updateUser} user={this.state.editUser} indexUser={this.state.editUserIndex}></FormUser>
 
                 {this.state.friends.map(function(friend, i) {
-                    return (<ListFriend key={i} dataFriend={friend} idUsers={this.state.idUser} addFriend={this.addFriend} deleteFriendHandle={this.deleteFriendHandle} />)
+                    return (<ListFriend key={i} dataFriend={friend} idUserss={this.state.idUsers}  deleteFriendHandle={this.deleteFriendHandle} />)
                 }, this)}
                 {this.state.User.map(function(person, i) {
-                    return (<List addFriendHandle={this.addFriendHandle.bind(this)} handleEditButton={this.handleEditButton} handleFriendButton={this.handleFriendButton} deleteUser={this.deleteUser} key={i} data={person} indexUser={i}/>)
+                    return (<List handleEditButton={this.handleEditButton} handleFriendButton={this.handleFriendButton} deleteUser={this.deleteUser} key={i} data={person} indexUser={i}/>)
                 }, this)}
 
             </div>

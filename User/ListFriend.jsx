@@ -3,27 +3,12 @@ import React from 'react';
 class ListFriend extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-              idUsers: this.props.idUsers
-          }
+
        this.deleteFriendHandle=this.deleteFriendHandle.bind(this);
-          // this.handleSubmit = this.handleSubmit.bind(this);
     };
 
-    componentWillReceiveProps(nextProps){
-      this.setState({
-          idUsers: nextProps.idUsers
-      })
-    }
-
     deleteFriendHandle(){
-      //
-      // if(this.state.idUsers){
-      //     this.props.deleteFriendHandle(this.props.dataFriend._id);
-      //     this.props.addFriend(this.state.user, this.props.indexUser);
-      //   } else {
-          this.props.deleteFriendHandle(this.props.dataFriend._idFriend, this.props.dataFriend.idUser);
-        // }
+      this.props.deleteFriendHandle(this.props.dataFriend._idFriend, this.props.dataFriend.idUser);
     }
 
     render(){

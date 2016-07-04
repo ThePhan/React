@@ -23,9 +23,6 @@ constructor(props) {
     this.props.handleFriendButton(this.props.indexUser);
   }
 
-  addFriendHandle(){
-    this.props.addFriendHandle(this.props.data._id);
-  }
    render() {
       return (
       <div id="try">
@@ -34,7 +31,7 @@ constructor(props) {
                 <tbody>
                   <tr >
                      <td id="imageUser"><img src={this.props.data.photo} width="150" height="160" alt="No image" /></td>
-                     <td id="infor">
+                     <td id="infor"><b> IdUser: </b> {this.props.data._id} <br />
                      <b> First name: </b>{this.props.data.firstName} <br />
                      <b> Last Name: </b>{this.props.data.lastName} <br />
                   </td>
@@ -42,7 +39,6 @@ constructor(props) {
                 </tbody>
 
               </table>
-              <button type="button" onClick={this.addFriendHandle.bind(this)}> Add friend </button>
               <button type="button" onClick={this.handleDeleteButton} className="button success"> Delete</button>
               <button type="button" onClick={this.handleEditButton} className="button success"> Edit </button>
               <button type="button" onClick={this.handleFriendButton} className="button success"> Friend </button>
