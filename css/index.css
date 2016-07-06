@@ -20,7 +20,7 @@ input {
     padding: 20px 0px 20px 40px;
     border: 1px solid;
     border-radius: 9px;
-    width: 500px;
+    width: 700px;
     background-color: #B0BEC5;
 }
 #photo {
@@ -49,4 +49,13 @@ input {
   color: white;
   font-weight: bold;
   font-size: 30px;
+}
+.formGroup{
+  margin-right: 30px;
+}
+#inputGroup{
+  margin: 8px;
+}
+#spaceButton{
+  margin: 2px;
 }

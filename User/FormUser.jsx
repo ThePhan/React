@@ -1,6 +1,10 @@
 import React from 'react';
-
-
+import {Button} from 'react-bootstrap';
+import {FormGroup} from 'react-bootstrap';
+import {InputGroup} from 'react-bootstrap';
+import {FormControl} from 'react-bootstrap';
+import {ControlLabel} from 'react-bootstrap';
+import {Glyphicon} from 'react-bootstrap';
 class FormUser extends React.Component {
     constructor(props) {
         super(props);
@@ -43,13 +47,23 @@ class FormUser extends React.Component {
     render() {
         return (
             <div id="formUser">
-
               <p id="titleUser"> MANARGER USER </p>
               <div id="subFormUser">
-                <p ><b>FirstName</b> <input type="text" placeholder="input first name..." value={this.state.user.firstName || ''} onChange={this.handleOnchange.bind(this, 'firstName')} /> <br /></p>
-                <p ><b>LastName </b> <input type="text" width="350px" placeholder="input last name...." value={this.state.user.lastName || ''} onChange={this.handleOnchange.bind(this, 'lastName')} /> <br /></p>
-                <p ><b><span id="photo" >Photo</span> </b> <input type="text" placeholder="input link photo...." value={this.state.user.photo || ''} onChange={this.handleOnchange.bind(this, 'photo')} /> <br /></p>
-                <button onClick={this.handleSubmit} className="button success">{this.state.user._id ? 'Update' : 'Add user'}</button> <br />
+                <FormGroup bsSize="large" className="formGroup">
+                <InputGroup id="inputGroup">
+                  <InputGroup.Addon><Glyphicon glyph="user"/></InputGroup.Addon>
+                  <FormControl type="text" placeholder="input first name..." value={this.state.user.firstName || ''} onChange={this.handleOnchange.bind(this, 'firstName')}/>
+                </InputGroup>
+                <InputGroup id="inputGroup">
+                  <InputGroup.Addon><Glyphicon glyph="user"/></InputGroup.Addon>
+                  <FormControl type="text" placeholder="input last name...." value={this.state.user.lastName || ''} onChange={this.handleOnchange.bind(this, 'lastName')} />
+                </InputGroup>
+                <InputGroup id="inputGroup">
+                  <InputGroup.Addon><Glyphicon glyph="camera"/></InputGroup.Addon>
+                  <FormControl type="text" placeholder="input link photo...." value={this.state.user.photo || ''} onChange={this.handleOnchange.bind(this, 'photo')} />
+                </InputGroup>
+                </FormGroup>
+                <Button bsStyle="success" bsSize="large" onClick={this.handleSubmit} ><Glyphicon glyph="leaf"/> {this.state.user._id ? 'Update' : 'Add user'}</Button> <br />
               </div>
             </div>
         )

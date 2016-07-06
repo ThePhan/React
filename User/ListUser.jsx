@@ -1,5 +1,6 @@
 import React from 'react';
-
+import {Button} from 'react-bootstrap';
+import {Glyphicon} from 'react-bootstrap';
 
 class ListUser extends React.Component {
 constructor(props) {
@@ -30,7 +31,7 @@ constructor(props) {
               <table>
                 <tbody>
                   <tr >
-                     <td id="imageUser"><img src={this.props.data.photo} width="150" height="160" alt="No image" /></td>
+                     <td id="imageUser"><img src={this.props.data.photo} width="180" height="190" alt="No image" /></td>
                      <td id="infor"><b> IdUser: </b> {this.props.data._id} <br />
                      <b> First name: </b>{this.props.data.firstName} <br />
                      <b> Last Name: </b>{this.props.data.lastName} <br />
@@ -39,9 +40,9 @@ constructor(props) {
                 </tbody>
 
               </table>
-              <button type="button" onClick={this.handleDeleteButton} className="button success"> Delete</button>
-              <button type="button" onClick={this.handleEditButton} className="button success"> Edit </button>
-              <button type="button" onClick={this.handleFriendButton} className="button success"> Friend </button>
+              <Button id="spaceButton" onClick={this.handleDeleteButton} bsStyle="danger" bsSize="small"><Glyphicon glyph="remove"/> Delete</Button>
+              <Button id="spaceButton" onClick={this.handleEditButton} bsStyle="warning" bsSize="small"><Glyphicon glyph="pencil"/> Edit </Button>
+              <Button id="spaceButton" onClick={this.handleFriendButton} bsStyle="info" bsSize="small"><Glyphicon glyph="list"/> Friend </Button>
            </ul>
       </div>
       );
